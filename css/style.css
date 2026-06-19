@@ -345,6 +345,119 @@ main {
   color: var(--primary);
 }
 
+/* ========== 答题模板卡片 ========== */
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.template-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.template-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.template-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.template-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.template-type {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.template-trigger {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.template-framework {
+  background: var(--surface-alt);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-bottom: 14px;
+}
+
+.template-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.template-framework-text {
+  font-size: 0.88rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.template-steps {
+  margin-bottom: 14px;
+}
+
+.template-step {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  padding-left: 16px;
+  position: relative;
+  margin-bottom: 6px;
+  line-height: 1.6;
+}
+
+.template-step::before {
+  content: "▸";
+  position: absolute;
+  left: 2px;
+  color: var(--secondary);
+  font-weight: 700;
+}
+
+.template-block {
+  background: var(--surface-alt);
+  border-left: 3px solid var(--secondary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+
+.template-example-block {
+  border-left-color: var(--accent);
+  background: #FFF8E1;
+}
+
+.template-text {
+  font-size: 0.83rem;
+  color: var(--text);
+  line-height: 1.8;
+  white-space: pre-wrap;
+  margin-top: 4px;
+}
+
+/* 练习题题型标签 */
+.exercise-tag.type-tag {
+  background: #E8EAF6;
+  color: #3F51B5;
+}
+
 /* ========== 知识点卡片 ========== */
 .knowledge-units {
   display: flex;
