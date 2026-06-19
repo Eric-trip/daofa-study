@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>道法研习社 - 初中道法学习平台</title>
   <meta name="description" content="初中道德与法治学习平台，包含主观题答题技巧、答题模板、知识点梳理、思维导图、练习题、万能句积累本等">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=v3">
 </head>
 <body>
 
@@ -16,6 +16,7 @@
         <span>⚖️</span>
         <span>道法研习社</span>
       </a>
+      <button class="theme-toggle" aria-label="切换主题" title="切换明暗模式">🌙</button>
       <button class="navbar-toggle" aria-label="菜单">☰</button>
       <ul class="navbar-menu">
         <li><a href="#hero" class="active">首页</a></li>
@@ -94,6 +95,11 @@
       </div>
       <p class="section-desc">按单元整理核心知识点，考前复习一目了然</p>
       <div class="knowledge-units" id="knowledge-container"></div>
+          </div>
+          <div class="knowledge-content" data-content="7A" style="display:none;">
+          <div class="knowledge-units" id="knowledge-units-7a"></div>
+          </div>
+
     </section>
 
     <!-- ========== 思维导图 ========== -->
@@ -133,7 +139,9 @@
       </div>
       <p class="section-desc">先自己作答，再对比参考答案，找出差距。每道题标注了题型，方便针对性练习。</p>
       <div class="exercise-filters">
-        <button class="exercise-filter active" data-unit="all">全部 (18)</button>
+        <button class="exercise-filter active" data-unit="all">全部(40)</button>
+        <button class="exercise-filter" data-unit="favorites">⭐收藏</button>
+        <button class="exercise-filter" data-unit="第一单元">全部 (18)</button>
         <button class="exercise-filter" data-unit="第一单元">第一单元 (5)</button>
         <button class="exercise-filter" data-unit="第二单元">第二单元 (5)</button>
         <button class="exercise-filter" data-unit="第三单元">第三单元 (4)</button>
@@ -224,8 +232,8 @@
     <p>提示：万能句和打卡数据保存在本地浏览器中，清除浏览器数据会丢失，请注意备份。</p>
   </footer>
 
-  <script src="js/data.js?v=v2fix"></script>
-  <script src="js/app.js?v=v2fix"></script>
+  <script src="js/data.js?v=v3"></script>
+  <script src="js/app.js?v=v3"></script>
   <script>
     // ========== 渲染答题技巧 ==========
     (function renderTechniques() {
@@ -362,6 +370,24 @@
       }
     })();
 
+    
+    // ========== 渲染七年级上册知识点 ==========
+    (function renderKnowledge7A() {
+      var container = document.getElementById("knowledge-units-7a");
+      if (!container || typeof knowledgePoints7A === "undefined") return;
+      container.innerHTML = knowledgePoints7A.map(function(unit) {
+        return '<div class="knowledge-unit" style="border-left-color:' + unit.color + ';">' +
+          '<h3 class="knowledge-unit-title">' + unit.unit + '</h3>' +
+          unit.chapters.map(function(ch) {
+            return '<div class="knowledge-chapter"><h4 class="knowledge-chapter-title">' +
+              ch.name + '</h4><ul class="knowledge-points">' +
+              ch.points.map(function(p) { return '<li>' + p + '</li>'; }).join("") +
+              '</ul></div>';
+          }).join("") +
+          '</div>';
+      }).join("");
+    })();
+
     // ========== 渲染练习题 ==========
     (function renderExercises() {
       const container = document.getElementById("exercise-container");
@@ -369,14 +395,15 @@
       container.innerHTML = exercises.map(ex => {
         const diffClass = ex.difficulty === "较难" ? "difficulty-hard" : "difficulty-medium";
         return `
-        <div class="exercise-card" data-unit="${ex.unit}">
+        <div class="exercise-card" data-unit="${ex.unit}" data-id="${ex.id}">
           <div class="exercise-meta">
             <span class="exercise-tag unit">${ex.unit}</span>
             <span class="exercise-tag ${diffClass}">${ex.difficulty}</span>
             <span class="exercise-tag type-tag">${ex.type}</span>
+            <button class="btn-favorite" data-id="${ex.id}" title="收藏">☆</button>
           </div>
           <div class="exercise-question">${ex.question}</div>
-          <textarea class="exercise-input" placeholder="在这里输入你的答案...&#10;&#10;💡 提示：这是一道【${ex.type}】，先判断题型，再套用对应答题框架，分点作答，结合材料。"></textarea>
+          <textarea class="exercise-input" data-id="${ex.id}" placeholder="在这里输入你的答案...&#10;&#10;💡 提示：这是一道【${ex.type}】，先判断题型，再套用对应答题框架，分点作答，结合材料。"></textarea>
           <div class="exercise-actions">
             <button class="btn btn-primary btn-toggle-answer">查看参考答案</button>
             <button class="btn btn-secondary btn-clear-input">清空作答</button>
@@ -384,6 +411,14 @@
           <div class="exercise-answer">
             <div class="exercise-answer-label">✅ 参考答案</div>
             <div class="exercise-answer-text">${ex.answer}</div>
+            <div class="exercise-scoring" data-id="${ex.id}">
+              <span class="scoring-label">自评打分：</span>
+              <span class="star" data-score="1">★</span>
+              <span class="star" data-score="2">★</span>
+              <span class="star" data-score="3">★</span>
+              <span class="star" data-score="4">★</span>
+              <span class="star" data-score="5">★</span>
+            </div>
           </div>
         </div>
         `;
@@ -422,5 +457,6 @@
       `).join("");
     })();
   </script>
+<button class="back-to-top" aria-label="返回顶部">↑</button>
 </body>
 </html>
