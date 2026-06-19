@@ -1315,3 +1315,195 @@ footer p {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
 }
+
+
+/* ========== 暗黑模式 ========== */
+body.dark-theme {
+  --primary: #4ECDC4;
+  --primary-light: #7FE3DB;
+  --secondary: #2D7A7A;
+  --bg: #1A1B2E;
+  --surface: #252640;
+  --surface-alt: #2D2E4A;
+  --text: #E0E0E8;
+  --text-secondary: #A0A0B8;
+  --text-muted: #7070A0;
+  --border: #3D3E5A;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-theme .hero {
+  background: linear-gradient(135deg, #1A1B2E 0%, #252640 100%);
+}
+
+body.dark-theme .navbar {
+  background: rgba(37, 38, 64, 0.95);
+}
+
+body.dark-theme .exercise-answer {
+  background: #1E3320;
+}
+
+body.dark-theme .template-block {
+  background: #2D2E4A;
+}
+
+body.dark-theme .template-example-block {
+  background: #3D3520;
+}
+
+/* ========== 主题切换按钮 ========== */
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  width: 36px;
+  height: 36px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle:hover {
+  background: var(--surface-alt);
+  border-color: var(--primary);
+}
+
+/* ========== 返回顶部按钮 ========== */
+.back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 44px;
+  height: 44px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  box-shadow: var(--shadow-lg);
+}
+
+.back-to-top.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.back-to-top:hover {
+  background: var(--primary-light);
+  transform: translateY(-3px);
+}
+
+/* ========== 自评打分 ========== */
+.exercise-scoring {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(102, 187, 106, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.scoring-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-right: 8px;
+}
+
+.star {
+  font-size: 1.3rem;
+  color: #ccc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.star:hover {
+  transform: scale(1.2);
+}
+
+.star.active {
+  color: #F9A826;
+}
+
+/* ========== 收藏按钮 ========== */
+.btn-favorite {
+  margin-left: auto;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.btn-favorite:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-favorite.active {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(249, 168, 38, 0.1);
+}
+
+/* ========== 知识梳理标签页 ========== */
+.knowledge-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.knowledge-tab {
+  padding: 8px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.knowledge-tab:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.knowledge-tab.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+@media (max-width: 768px) {
+  .back-to-top {
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .theme-toggle {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+}
