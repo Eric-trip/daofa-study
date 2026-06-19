@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>道法研习社 - 初中道法学习平台</title>
-  <meta name="description" content="初中道德与法治学习平台，包含主观题答题技巧、知识点梳理、思维导图、练习题、万能句积累本等">
+  <meta name="description" content="初中道德与法治学习平台，包含主观题答题技巧、答题模板、知识点梳理、思维导图、练习题、万能句积累本等">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -20,6 +20,7 @@
       <ul class="navbar-menu">
         <li><a href="#hero" class="active">首页</a></li>
         <li><a href="#techniques">答题技巧</a></li>
+        <li><a href="#templates">答题模板</a></li>
         <li><a href="#knowledge">知识梳理</a></li>
         <li><a href="#mindmap">思维导图</a></li>
         <li><a href="#exam">高频考点</a></li>
@@ -45,15 +46,19 @@
               <div class="label">大答题技巧</div>
             </div>
             <div class="hero-stat">
+              <div class="num">5</div>
+              <div class="label">大题型模板</div>
+            </div>
+            <div class="hero-stat">
               <div class="num">4</div>
               <div class="label">单元知识梳理</div>
             </div>
             <div class="hero-stat">
-              <div class="num">6</div>
-              <div class="label">模拟练习题</div>
+              <div class="num">18</div>
+              <div class="label">道模拟练习</div>
             </div>
             <div class="hero-stat">
-              <div class="num">18+</div>
+              <div class="num">66+</div>
               <div class="label">万能金句</div>
             </div>
           </div>
@@ -69,6 +74,16 @@
       </div>
       <p class="section-desc">点击标题展开/收起，掌握这些套路，主观题不再丢分</p>
       <div class="accordion" id="techniques-accordion"></div>
+    </section>
+
+    <!-- ========== 答题模板 ========== -->
+    <section id="templates" class="section">
+      <div class="section-title">
+        <span class="icon">📋</span>
+        <span>五大题型答题模板</span>
+      </div>
+      <p class="section-desc">认识理解类、原因意义类、做法建议类、辨析评价类、启示感悟类 —— 填空式答题，考试直接套</p>
+      <div class="template-grid" id="templates-container"></div>
     </section>
 
     <!-- ========== 知识点梳理 ========== -->
@@ -116,12 +131,13 @@
         <span class="icon">✏️</span>
         <span>练习专区</span>
       </div>
-      <p class="section-desc">先自己作答，再对比参考答案，找出差距</p>
+      <p class="section-desc">先自己作答，再对比参考答案，找出差距。每道题标注了题型，方便针对性练习。</p>
       <div class="exercise-filters">
-        <button class="exercise-filter active" data-unit="all">全部</button>
-        <button class="exercise-filter" data-unit="第一单元">第一单元</button>
-        <button class="exercise-filter" data-unit="第二单元">第二单元</button>
-        <button class="exercise-filter" data-unit="第四单元">第四单元</button>
+        <button class="exercise-filter active" data-unit="all">全部 (18)</button>
+        <button class="exercise-filter" data-unit="第一单元">第一单元 (5)</button>
+        <button class="exercise-filter" data-unit="第二单元">第二单元 (5)</button>
+        <button class="exercise-filter" data-unit="第三单元">第三单元 (4)</button>
+        <button class="exercise-filter" data-unit="第四单元">第四单元 (4)</button>
       </div>
       <div class="exercise-list" id="exercise-container"></div>
     </section>
@@ -132,13 +148,15 @@
         <span class="icon">💡</span>
         <span>万能句积累本</span>
       </div>
-      <p class="section-desc">已预填常见万能金句，点击可删除，也可自己添加。数据保存在本地浏览器中。</p>
+      <p class="section-desc">已预填66+条万能金句，按题型分类。点击可删除，也可自己添加。数据保存在本地浏览器中。</p>
       <div class="sentence-input-area">
         <select class="sentence-select" id="sentence-category">
           <option value="意义类">意义类</option>
           <option value="做法类">做法类</option>
           <option value="认识类">认识类</option>
           <option value="法律类">法律类</option>
+          <option value="辨析类">辨析类</option>
+          <option value="启示类">启示类</option>
         </select>
         <input type="text" class="sentence-input" id="sentence-input" placeholder="输入你想积累的万能句...">
         <button class="btn btn-primary" id="btn-add-sentence">添加</button>
@@ -239,6 +257,38 @@
       });
     })();
 
+    // ========== 渲染答题模板 ==========
+    (function renderTemplates() {
+      const container = document.getElementById("templates-container");
+      if (!container) return;
+      container.innerHTML = answerTemplates.map(t => `
+        <div class="template-card">
+          <div class="template-header">
+            <span class="template-icon">${t.icon}</span>
+            <div>
+              <h4 class="template-type">${t.type}</h4>
+              <p class="template-trigger">题型关键词：${t.trigger}</p>
+            </div>
+          </div>
+          <div class="template-framework">
+            <span class="template-label">答题框架：</span>
+            <span class="template-framework-text">${t.framework}</span>
+          </div>
+          <div class="template-steps">
+            ${t.steps.map((s, i) => `<div class="template-step">${s}</div>`).join("")}
+          </div>
+          <div class="template-block">
+            <div class="template-label">📋 填空模板：</div>
+            <div class="template-text">${t.template}</div>
+          </div>
+          <div class="template-block template-example-block">
+            <div class="template-label">📝 范例：</div>
+            <div class="template-text">${t.example}</div>
+          </div>
+        </div>
+      `).join("");
+    })();
+
     // ========== 渲染知识点梳理 ==========
     (function renderKnowledge() {
       const container = document.getElementById("knowledge-container");
@@ -323,9 +373,10 @@
           <div class="exercise-meta">
             <span class="exercise-tag unit">${ex.unit}</span>
             <span class="exercise-tag ${diffClass}">${ex.difficulty}</span>
+            <span class="exercise-tag type-tag">${ex.type}</span>
           </div>
           <div class="exercise-question">${ex.question}</div>
-          <textarea class="exercise-input" placeholder="在这里输入你的答案...&#10;&#10;提示：先审题判断题型，再套用答题框架（是什么→为什么→怎么办），分点作答，结合材料。"></textarea>
+          <textarea class="exercise-input" placeholder="在这里输入你的答案...&#10;&#10;💡 提示：这是一道【${ex.type}】，先判断题型，再套用对应答题框架，分点作答，结合材料。"></textarea>
           <div class="exercise-actions">
             <button class="btn btn-primary btn-toggle-answer">查看参考答案</button>
             <button class="btn btn-secondary btn-clear-input">清空作答</button>
