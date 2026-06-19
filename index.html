@@ -224,8 +224,8 @@
     <p>提示：万能句和打卡数据保存在本地浏览器中，清除浏览器数据会丢失，请注意备份。</p>
   </footer>
 
-  <script src="js/data.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/data.js?v=v2fix"></script>
+  <script src="js/app.js?v=v2fix"></script>
   <script>
     // ========== 渲染答题技巧 ==========
     (function renderTechniques() {
@@ -390,23 +390,7 @@
       }).join("");
 
       // 绑定按钮事件
-      document.querySelectorAll(".btn-toggle-answer").forEach(btn => {
-        btn.addEventListener("click", function () {
-          const answerDiv = this.closest(".exercise-card").querySelector(".exercise-answer");
-          answerDiv.classList.toggle("show");
-          this.textContent = answerDiv.classList.contains("show") ? "隐藏参考答案" : "查看参考答案";
-        });
-      });
-
-      document.querySelectorAll(".btn-clear-input").forEach(btn => {
-        btn.addEventListener("click", function () {
-          const textarea = this.closest(".exercise-card").querySelector(".exercise-input");
-          if (textarea) {
-            textarea.value = "";
-            textarea.focus();
-          }
-        });
-      });
+      // 事件绑定由 app.js 统一处理，此处不重复绑定
     })();
 
     // ========== 渲染时政热点 ==========
