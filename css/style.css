@@ -59,8 +59,8 @@ body {
 .navbar-inner {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 0 20px;
-  height: 60px;
+  padding: 0 16px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -69,8 +69,10 @@ body {
 .navbar-logo {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 1.2rem;
+  gap: 6px;
+  font-size: 1.05rem;
+  white-space: nowrap;
+  flex-shrink: 0;
   font-weight: 700;
   color: var(--primary);
   cursor: pointer;
@@ -78,12 +80,12 @@ body {
 }
 
 .navbar-logo span {
-  font-size: 1.4rem;
+  font-size: 1.25rem;
 }
 
 .navbar-menu {
   display: flex;
-  gap: 4px;
+  gap: 2px;
   list-style: none;
   overflow-x: auto;
   scrollbar-width: none;
@@ -95,8 +97,8 @@ body {
 
 .navbar-menu a {
   display: block;
-  padding: 8px 14px;
-  font-size: 0.85rem;
+  padding: 6px 10px;
+  font-size: 0.8rem;
   color: var(--text-secondary);
   text-decoration: none;
   border-radius: var(--radius-sm);
@@ -126,7 +128,7 @@ body {
 main {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 80px 20px 60px;
+  padding: 76px 20px 60px;
 }
 
 .section {
@@ -1203,6 +1205,29 @@ footer p {
   }
 }
 
+
+/* 平板适配 */
+@media (max-width: 900px) and (min-width: 769px) {
+  .navbar-logo {
+    font-size: 0.95rem;
+  }
+  .navbar-logo span {
+    font-size: 1.1rem;
+  }
+  .navbar-menu a {
+    padding: 6px 8px;
+    font-size: 0.75rem;
+  }
+  .navbar-menu {
+    gap: 1px;
+  }
+  .theme-toggle {
+    width: 28px;
+    height: 28px;
+    font-size: 0.9rem;
+  }
+}
+
 @media (max-width: 768px) {
   .navbar-toggle {
     display: block;
@@ -1210,7 +1235,7 @@ footer p {
 
   .navbar-menu {
     position: fixed;
-    top: 60px;
+    top: 56px;
     left: 0;
     right: 0;
     background: rgba(255, 255, 255, 0.98);
@@ -1358,9 +1383,10 @@ body.dark-theme .template-example-block {
   background: none;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  width: 36px;
-  height: 36px;
-  font-size: 1.1rem;
+  width: 32px;
+  height: 32px;
+  font-size: 1rem;
+  flex-shrink: 0;
   cursor: pointer;
   transition: var(--transition);
   display: flex;
