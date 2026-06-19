@@ -349,4 +349,168 @@ document.addEventListener("DOMContentLoaded", function () {
       setTimeout(() => toast.remove(), 300);
     }, 2000);
   }
+
+
+  // ========== 暗黑模式 ==========
+  var THEME_KEY = "daofa_theme";
+  var themeToggle = document.querySelector(".theme-toggle");
+  function applyTheme(theme) {
+    if (theme === "dark") {
+      document.body.classList.add("dark-theme");
+      if (themeToggle) themeToggle.textContent = "\u2600\ufe0f";
+    } else {
+      document.body.classList.remove("dark-theme");
+      if (themeToggle) themeToggle.textContent = "\ud83c\udf19";
+    }
+  }
+  var savedTheme = localStorage.getItem(THEME_KEY) || "light";
+  applyTheme(savedTheme);
+  if (themeToggle) {
+    themeToggle.addEventListener("click", function () {
+      var current = document.body.classList.contains("dark-theme") ? "dark" : "light";
+      var next = current === "dark" ? "light" : "dark";
+      applyTheme(next);
+      localStorage.setItem(THEME_KEY, next);
+    });
+  }
+
+  // ========== 返回顶部 ==========
+  var backToTop = document.querySelector(".back-to-top");
+  if (backToTop) {
+    window.addEventListener("scroll", function () {
+      if (window.scrollY > 400) {
+        backToTop.classList.add("show");
+      } else {
+        backToTop.classList.remove("show");
+      }
+    });
+    backToTop.addEventListener("click", function () {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  // ========== 作答自动保存 ==========
+  var ANSWER_KEY = "daofa_answers";
+  function loadAnswers() {
+    try { return JSON.parse(localStorage.getItem(ANSWER_KEY) || "{}"); }
+    catch(e) { return {}; }
+  }
+  function saveAnswer(id, text) {
+    var answers = loadAnswers();
+    if (text.trim()) {
+      answers[id] = text;
+    } else {
+      delete answers[id];
+    }
+    localStorage.setItem(ANSWER_KEY, JSON.stringify(answers));
+  }
+  document.querySelectorAll(".exercise-input").forEach(function(textarea) {
+    var id = textarea.getAttribute("data-id");
+    if (!id) return;
+    var answers = loadAnswers();
+    if (answers[id]) textarea.value = answers[id];
+    textarea.addEventListener("input", function() {
+      saveAnswer(id, this.value);
+    });
+  });
+
+  // ========== 自评打分 ==========
+  var SCORE_KEY = "daofa_scores";
+  function loadScores() {
+    try { return JSON.parse(localStorage.getItem(SCORE_KEY) || "{}"); }
+    catch(e) { return {}; }
+  }
+  function saveScore(id, score) {
+    var scores = loadScores();
+    scores[id] = score;
+    localStorage.setItem(SCORE_KEY, JSON.stringify(scores));
+  }
+  function renderScores() {
+    var scores = loadScores();
+    document.querySelectorAll(".exercise-scoring").forEach(function(scoringDiv) {
+      var id = scoringDiv.getAttribute("data-id");
+      var currentScore = scores[id] || 0;
+      scoringDiv.querySelectorAll(".star").forEach(function(star) {
+        var score = parseInt(star.getAttribute("data-score"));
+        star.classList.toggle("active", score <= currentScore);
+      });
+    });
+  }
+  document.querySelectorAll(".exercise-scoring .star").forEach(function(star) {
+    star.addEventListener("click", function() {
+      var score = parseInt(this.getAttribute("data-score"));
+      var scoringDiv = this.closest(".exercise-scoring");
+      var id = scoringDiv.getAttribute("data-id");
+      saveScore(id, score);
+      renderScores();
+      showToast("\u2b50 \u81ea\u8bc4" + score + "\u661f\uff01");
+    });
+  });
+  renderScores();
+
+  // ========== 错题收藏 ==========
+  var FAVORITE_KEY = "daofa_favorites";
+  function loadFavorites() {
+    try { return JSON.parse(localStorage.getItem(FAVORITE_KEY) || "[]"); }
+    catch(e) { return []; }
+  }
+  function saveFavorites(favs) {
+    localStorage.setItem(FAVORITE_KEY, JSON.stringify(favs));
+  }
+  function renderFavorites() {
+    var favs = loadFavorites();
+    document.querySelectorAll(".btn-favorite").forEach(function(btn) {
+      var id = btn.getAttribute("data-id");
+      if (favs.includes(id)) {
+        btn.classList.add("active");
+        btn.textContent = "\u2605";
+      } else {
+        btn.classList.remove("active");
+        btn.textContent = "\u2606";
+      }
+    });
+  }
+  document.querySelectorAll(".btn-favorite").forEach(function(btn) {
+    btn.addEventListener("click", function(e) {
+      e.stopPropagation();
+      var id = this.getAttribute("data-id");
+      var favs = loadFavorites();
+      if (favs.includes(id)) {
+        favs = favs.filter(function(f) { return f !== id; });
+        showToast("\u5df2\u53d6\u6d88\u6536\u85cf");
+      } else {
+        favs.push(id);
+        showToast("\u2b50 \u5df2\u6536\u85cf\uff01");
+      }
+      saveFavorites(favs);
+      renderFavorites();
+    });
+  });
+  renderFavorites();
+
+  // 收藏筛选
+  var favFilter = document.querySelector('.exercise-filter[data-unit="favorites"]');
+  if (favFilter) {
+    favFilter.addEventListener("click", function() {
+      var favs = loadFavorites();
+      document.querySelectorAll(".exercise-card").forEach(function(card) {
+        var id = card.getAttribute("data-id");
+        card.style.display = favs.includes(id) ? "block" : "none";
+      });
+    });
+  }
+
+  // ========== 知识梳理 7A/7B 切换 ==========
+  var knowledgeTabs = document.querySelectorAll(".knowledge-tab");
+  knowledgeTabs.forEach(function(tab) {
+    tab.addEventListener("click", function() {
+      knowledgeTabs.forEach(function(t) { t.classList.remove("active"); });
+      this.classList.add("active");
+      var target = this.getAttribute("data-target");
+      document.querySelectorAll(".knowledge-content").forEach(function(content) {
+        content.style.display = content.getAttribute("data-content") === target ? "block" : "none";
+      });
+    });
+  });
+
 });
